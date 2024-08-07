@@ -36,7 +36,7 @@ public class LoginServlet extends HttpServlet {
             return;
         }
 
-        UserDAO userDAO = null;
+        UserDAO userDAO;
         try {
             userDAO = new UserDAO(DatabaseConnection.getConnection());
         } catch (ClassNotFoundException | SQLException e) {
@@ -45,9 +45,11 @@ public class LoginServlet extends HttpServlet {
             return;
         }
 
-        int userId = -1;
+        int userId;
+        boolean isAdmin;
         try {
             userId = userDAO.authenticate(email, password);
+            isAdmin = userDAO.isAdmin(userId);
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Authentication error", e);
             response.sendRedirect("login.jsp?error=Authentication error");
@@ -55,11 +57,10 @@ public class LoginServlet extends HttpServlet {
         }
 
         if (userId != -1) {
-            HttpSession session = request.getSession();
-            session.invalidate(); // Invalidate old session
-            session = request.getSession(true); // Create new session
+            HttpSession session = request.getSession(true); // Create new session
             session.setMaxInactiveInterval(30 * 60); // 30 minutes
             session.setAttribute("userId", userId);
+            session.setAttribute("isAdmin", isAdmin);
             response.sendRedirect("index");
             LOGGER.info("Login successful for user ID: " + userId);
         } else {

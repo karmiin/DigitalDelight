@@ -13,7 +13,7 @@
 <header class="header_section">
   <div class="container-fluid">
     <nav class="navbar navbar-expand-lg custom_nav-container ">
-      <a class="navbar-brand" href="index">
+      <a class="navbar-brand" href="${pageContext.request.contextPath}/">
         <span>
           Digital Delight
         </span>
@@ -26,10 +26,10 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav">
           <li class="nav-item active">
-            <a class="nav-link" href="index">Home <span class="sr-only">(current)</span></a>
+            <a class="nav-link" href="${pageContext.request.contextPath}/">Home <span class="sr-only">(current)</span></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href=""> Watches </a>
+            <a class="nav-link" href="phones"> Phones </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="about"> About </a>

@@ -2,6 +2,7 @@ package it.unisa.dao;
 
 import java.sql.*;
 
+import it.unisa.connection.DatabaseConnection;
 import it.unisa.model.User;
 import it.unisa.model.Address;
 import it.unisa.model.Review;
@@ -65,20 +66,33 @@ public class UserDAO {
         stmt.setInt(1, id);
         stmt.executeUpdate();
     }
-
     public int authenticate(String email, String password) throws SQLException {
         String sql = "SELECT id FROM Users WHERE email = ? AND password = ?";
-        PreparedStatement stmt = conn.prepareStatement(sql);
-        stmt.setString(1, email);
-        stmt.setString(2, password);
-        ResultSet rs = stmt.executeQuery();
-
-        if (rs.next()) {
-            return rs.getInt("id");
-        } else {
-            return -1;
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, email);
+            stmt.setString(2, password);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("id");
+                }
+            }
         }
+        return -1;
     }
+
+    public boolean isAdmin(int userId) throws SQLException {
+        String sql = "SELECT isAdmin FROM Users WHERE id = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, userId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getBoolean("isAdmin");
+                }
+            }
+        }
+        return false;
+    }
+
 
     public void createAddress(Address address) throws SQLException {
         String sql = "INSERT INTO Addresses (userId, addressLine1, addressLine2, city, state, postalCode, country) VALUES (?, ?, ?, ?, ?, ?, ?)";
@@ -102,5 +116,37 @@ public class UserDAO {
         stmt.setString(4, review.getComment());
         stmt.setTimestamp(5, review.getReviewDate());
         stmt.executeUpdate();
+    }
+    public void saveUser(User user) throws SQLException {
+        String sql = "INSERT INTO users (firstName, lastName, username, email, password) VALUES (?, ?, ?, ?, ?)";
+
+        try (Connection connection = DatabaseConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setString(1, user.getFirstName());
+            statement.setString(2, user.getLastName());
+            statement.setString(3, user.getUsername());
+            statement.setString(4, user.getEmail());
+            statement.setString(5, user.getPassword());
+
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new SQLException("Error saving user", e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public boolean emailExists(String email) throws SQLException {
+        String sql = "SELECT COUNT(*) FROM Users WHERE email = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, email);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+            }
+        }
+        return false;
     }
 }

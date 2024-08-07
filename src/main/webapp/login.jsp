@@ -48,7 +48,7 @@
 
     <!-- Icon -->
     <div class="fadeIn first">
-      <img src="http://danielzawadzki.com/codepen/01/icon.svg" id="icon" alt="User Icon" />
+      <img src="https://www.svgrepo.com/show/529284/user-id.svg" id="icon" alt="User Icon" height="50" width="50" />
     </div>
 
     <!-- Login Form -->
@@ -61,6 +61,8 @@
     <!-- Remind Passowrd -->
     <div id="formFooter">
       <a class="underlineHover" href="#">Forgot Password?</a>
+        <br>
+        Dont have an account? <a href="${pageContext.request.contextPath}/register">Register</a>
     </div>
 
   </div>

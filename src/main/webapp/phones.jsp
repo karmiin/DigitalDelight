@@ -46,18 +46,31 @@
           Lastest Phones
         </h2>
       </div>
-        <div class="row">
-        <div class="col-md-6"></div>
-          <div class="box">
-              <div class="img-box">
-                <img src="images/w1.png" alt="">
-              </div>
-              <div class="detail-box">
-              </div>
-             </div>
-             </div>
-             </div>
-             
+      <div class="row">
+        <c:forEach var="product" items="${products}">
+          <div class="col-md-6 col-xl-3">
+            <div class="box">
+              <a href="">
+                <div class="img-box">
+                  <img src="${pageContext.request.contextPath}/image?id=${product.id}" alt="">
+                </div>
+                <div class="detail-box">
+                  <h6>
+                      ${product.name}
+                  </h6>
+                  <h6>
+                    Price:
+                    <span>
+                        ${product.price}
+                    </span>
+                  </h6>
+                </div>
+              </a>
+            </div>
+          </div>
+        </c:forEach>
+      </div>
+    </div>
   </section>
 
   <!-- end shop section -->

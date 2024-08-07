@@ -26,7 +26,6 @@ public class ImageServlet extends HttpServlet {
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, id);
             ResultSet rs = stmt.executeQuery();
-
             if (rs.next()) {
                 byte[] imgData = rs.getBytes("image"); // Can be Blob, Clob, Binary, VarBinary etc.
                 response.setContentType("image/jpeg"); // Or whatever format you're dealing with.

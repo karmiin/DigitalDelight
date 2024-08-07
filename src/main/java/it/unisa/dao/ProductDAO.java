@@ -1,58 +1,29 @@
-// ProductDAO.java
 package it.unisa.dao;
 
-import java.io.InputStream;
+import it.unisa.model.Product;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
-import it.unisa.connection.DatabaseConnection;
-import it.unisa.model.Product;
-import jakarta.servlet.http.Part;
+import java.util.Optional;
+import java.util.OptionalInt;
 
 public class ProductDAO {
+    private final Connection conn;
 
-    public void addProductWithImage(String name, String description, double price, int quantity, Part image) {
-        String sql = "INSERT INTO Products (name, description, price, stock, image) VALUES (?, ?, ?, ?, ?)";
-
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            // Set the values
-            stmt.setString(1, name);
-            stmt.setString(2, description);
-            stmt.setDouble(3, price);
-            stmt.setInt(4, quantity);
-
-            // Handle the image upload
-            InputStream inputStream = image.getInputStream();
-            byte[] imageBytes = new byte[(int) image.getSize()];
-            inputStream.read(imageBytes, 0, imageBytes.length);
-            inputStream.close();
-
-            stmt.setBytes(5, imageBytes);
-
-            stmt.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public ProductDAO(Connection conn) {
+        this.conn = conn;
     }
 
-    public List<Product> getProducts() throws Exception {
+    public List<Product> getProducts(OptionalInt nProducts) throws SQLException {
         List<Product> products = new ArrayList<>();
-        Connection connection = null;
-        PreparedStatement statement = null;
-        ResultSet resultSet = null;
-
-        try {
-            connection = DatabaseConnection.getConnection();
-            String sql = "SELECT * FROM Products";
-            statement = connection.prepareStatement(sql);
-            resultSet = statement.executeQuery();
-
-            while (resultSet.next()) {
+        String sql = "SELECT * FROM products";
+        try (PreparedStatement statement = conn.prepareStatement(sql);
+             ResultSet resultSet = statement.executeQuery()) {
+            while (resultSet.next() && (nProducts.isEmpty() || products.size() < nProducts.getAsInt())) {
                 Product product = new Product();
                 product.setId(resultSet.getInt("id"));
                 product.setName(resultSet.getString("name"));
@@ -61,15 +32,79 @@ public class ProductDAO {
                 product.setStock(resultSet.getInt("stock"));
                 product.setBrand(resultSet.getString("brand"));
                 product.setModel(resultSet.getString("model"));
-                product.setImage(resultSet.getBytes("image")); // Retrieve image
+                product.setImage(resultSet.getBytes("image"));
                 products.add(product);
             }
-        } finally {
-            if (resultSet != null) resultSet.close();
-            if (statement != null) statement.close();
-            if (connection != null) connection.close();
+        }
+        return products;
+    }
+
+    public Product getProductById(int id) throws SQLException {
+        Product product = null;
+        String sql = "SELECT * FROM products WHERE id = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, id);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    product = new Product();
+                    product.setId(rs.getInt("id"));
+                    product.setName(rs.getString("name"));
+                    product.setDescription(rs.getString("description"));
+                    product.setPrice(rs.getDouble("price"));
+                    product.setStock(rs.getInt("stock"));
+                    product.setBrand(rs.getString("brand"));
+                    product.setModel(rs.getString("model"));
+                    product.setImage(rs.getBytes("image"));
+                }
+            }
+        }
+        return product;
+    }
+
+    public void updateProduct(Product product) throws SQLException {
+        String name = product.getName();
+        String description = product.getDescription();
+        double price = product.getPrice();
+        int stock = product.getStock();
+        String brand = product.getBrand();
+        String model = product.getModel();
+        int id = product.getId();
+        byte[] image = product.getImage();
+        String sql = "UPDATE products SET name = ?, description = ?, price = ?, stock = ?, brand = ?, model = ?, image = ? WHERE id = ?";
+
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, name);
+            stmt.setString(2, description);
+            stmt.setDouble(3, price);
+            stmt.setInt(4, stock);
+            stmt.setString(5, brand);
+            stmt.setString(6, model);
+            stmt.setBytes(7, image);
+            stmt.setInt(8, id);
+            stmt.executeUpdate();
         }
 
-        return products;
+    }
+
+    public void deleteProduct(int id) throws SQLException {
+        String sql = "DELETE FROM products WHERE id = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, id);
+            stmt.executeUpdate();
+        }
+    }
+
+    public void addProduct(Product product) throws SQLException {
+        String sql = "INSERT INTO products (name, description, price, stock, brand, model, image) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, product.getName());
+            stmt.setString(2, product.getDescription());
+            stmt.setDouble(3, product.getPrice());
+            stmt.setInt(4, product.getStock());
+            stmt.setString(5, product.getBrand());
+            stmt.setString(6, product.getModel());
+            stmt.setBytes(7, product.getImage());
+            stmt.executeUpdate();
+        }
     }
 }
