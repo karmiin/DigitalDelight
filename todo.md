@@ -1,12 +1,6 @@
-servlet delete-product e edit-product (Controller?) > DONE
-
 Modificare UI per index e altre scheramte
 
-quando accedo per la prima volta non va ad /index (Andare direttamente senza far vedere /index)
-
 Posso riloggarmi ma essendo giá loggato (Problema)
-
-Cambiare Watches pagina jsp in Phones e aggiungere i phones dal db > DONE
 
 strutturare un accesso per l'admin (Da pagina profile?)
 

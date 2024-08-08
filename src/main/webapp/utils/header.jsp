@@ -5,11 +5,6 @@
   boolean loggedIn = (sessionForLogout!= null && sessionForLogout.getAttribute("userId") != null);
 %>
 
-<!-- Custom styles for this template -->
-<link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet" />
-<!-- responsive style -->
-<link href="${pageContext.request.contextPath}/css/responsive.css" rel="stylesheet" />
-<!-- header section strats -->
 <header class="header_section">
   <div class="container-fluid">
     <nav class="navbar navbar-expand-lg custom_nav-container ">
@@ -58,4 +53,3 @@
     </nav>
   </div>
 </header>
-<!-- end header section -->

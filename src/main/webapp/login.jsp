@@ -31,7 +31,7 @@
   <title>Timups</title>
 
 <%@include file="utils/imports.jsp" %>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/auth.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/auth.css">
 </head>
 
 <body>

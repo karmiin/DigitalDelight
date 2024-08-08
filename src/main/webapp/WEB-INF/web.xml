@@ -26,4 +26,10 @@
       <secure>true</secure>
     </cookie-config>
   </session-config>
+
+  <servlet-mapping>
+    <servlet-name>default</servlet-name>
+    <url-pattern>/css/*</url-pattern>
+    <url-pattern>/images/*</url-pattern>
+  </servlet-mapping>
 </web-app>
