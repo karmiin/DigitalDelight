@@ -1,3 +1,4 @@
+<!-- register.jsp -->
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@ page import="it.unisa.connection.DatabaseConnection"%>
@@ -48,8 +49,8 @@
         </div>
 
         <!-- Login Form -->
-        <form action="${pageContext.request.contextPath}/register" method="POST">
-            <span id="error" style="color: #ff0000; display: none;"></span>
+        <form id="registerForm" action="${pageContext.request.contextPath}/register" method="POST">
+            <span id="messageError" style="color: #ff0000; display: none;"></span>
             <input type="text" id="firstname" class="fadeIn second" name="firstname" placeholder="first name" required>
             <input type="text" id="lastname" class="fadeIn second" name="lastname" placeholder="last name" required>
             <input type="text" id="username" class="fadeIn third" name="username" placeholder="username" required>

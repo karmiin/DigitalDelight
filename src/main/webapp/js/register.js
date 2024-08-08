@@ -1,34 +1,28 @@
-document.addEventListener("DOMContentLoaded", function() {
-    const emailInput = document.getElementById("email");
-    const errorSpan = document.getElementById("error");
+$(document).ready(function() {
+    $('#registerForm').on('submit', function(event) {
+        event.preventDefault(); // Prevent the default form submission
 
-    emailInput.addEventListener("blur", function() {
-        const email = emailInput.value;
+        var email = $('#email').val(); // Get the email value
+        var username = $('#username').val(); // Get the username value
 
-        if (email) {
-            const xhr = new XMLHttpRequest();
-            xhr.open("POST", `${window.location.origin}/checkEmail`, true);
-            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState === XMLHttpRequest.DONE) {
-                    if (xhr.status === 200) {
-                        const data = JSON.parse(xhr.responseText);
-                        if (data.exists) {
-                            errorSpan.textContent = "Email already registered.";
-                            errorSpan.style.display = "block";
-                        } else {
-                            errorSpan.style.display = "none";
-                        }
-                    } else {
-                        console.error("Error checking email:", xhr.statusText);
-                        errorSpan.textContent = "An error occurred while checking the email.";
-                        errorSpan.style.display = "block";
-                    }
+        $.ajax({
+            type: 'POST', // Ensure it is POST
+            url: '/DigitalDelight/checkRegister', // Correct URL
+            data: { email: email, username: username },
+            dataType: 'json',
+            success: function(response) {
+                if (response.emailExists) {
+                    $('#messageError').text('Email already exists').show();
+                } else if (response.usernameExists) {
+                    $('#messageError').text('Username already exists').show();
+                } else {
+                    $('#messageError').hide();
+                    $('#registerForm').off('submit').submit(); // Allow form submission
                 }
-            };
-
-            xhr.send(`email=${encodeURIComponent(email)}`);
-        }
+            },
+            error: function() {
+                $('#messageError').text('An error occurred while checking the email and username').show();
+            }
+        });
     });
 });

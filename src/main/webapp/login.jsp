@@ -62,7 +62,7 @@
     <div id="formFooter">
       <a class="underlineHover" href="#">Forgot Password?</a>
         <br>
-        Dont have an account? <a href="${pageContext.request.contextPath}/register">Register</a>
+        Dont have an account? <a  class="underlineHover" href="${pageContext.request.contextPath}/register">Register</a>
     </div>
 
   </div>

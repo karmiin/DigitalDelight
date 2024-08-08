@@ -7,27 +7,23 @@
 
 <header class="header_section">
   <div class="container-fluid">
-    <nav class="navbar navbar-expand-lg custom_nav-container ">
+    <nav class="navbar navbar-expand-lg custom_nav-container">
       <a class="navbar-brand" href="${pageContext.request.contextPath}/">
-        <span>
-          Digital Delight
-        </span>
+        <span>Digital Delight</span>
       </a>
-
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class=""> </span>
+        <span class="navbar-toggler-icon"></span>
       </button>
-
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav">
           <li class="nav-item active">
             <a class="nav-link" href="${pageContext.request.contextPath}/">Home <span class="sr-only">(current)</span></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="phones"> Phones </a>
+            <a class="nav-link" href="phones">Phones</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="about"> About </a>
+            <a class="nav-link" href="about">About</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="contact">Contact Us</a>

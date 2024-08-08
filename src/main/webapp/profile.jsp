@@ -3,12 +3,12 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <%@include file="utils/imports.jsp"%>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
 <%@include file="utils/header.jsp" %>
-<%@include file="utils/imports.jsp" %>
 
 </body>
 </html>

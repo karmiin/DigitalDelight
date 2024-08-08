@@ -4,7 +4,7 @@
 <html lang="en">
 
 <head>
-  <!-- Basic -->
+<%@include file="utils/imports.jsp"%>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <!-- Mobile Metas -->
@@ -22,15 +22,6 @@
   <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
   <!--owl slider stylesheet -->
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
-
-  <!-- font awesome style -->
-  <link href="css/font-awesome.min.css" rel="stylesheet" />
-
-  <!-- Custom styles for this template -->
-  <link href="css/style.css" rel="stylesheet" />
-  <!-- responsive style -->
-  <link href="css/responsive.css" rel="stylesheet" />
-
 </head>
 
 <body class="sub_page">
