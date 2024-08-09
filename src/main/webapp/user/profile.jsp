@@ -1,8 +1,43 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="it.unisa.model.User" %>
+<%@ page import="it.unisa.model.User, it.unisa.dao.UserDAO, it.unisa.model.Order, it.unisa.model.Product" %>
+<%@ page import="it.unisa.connection.DatabaseConnection" %>
+<%@ page import="java.sql.SQLException" %>
+<%@ page import="java.util.List" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
-    User user = (User) session.getAttribute("user");
+    Integer userId = (Integer) session.getAttribute("userId");
+    if (userId == null) {
+        response.sendRedirect("login.jsp");
+        return;
+    }
+
+    UserDAO userDAO = null;
+    User user = null;
+    try {
+        userDAO = new UserDAO(DatabaseConnection.getConnection());
+        user = userDAO.getUser(userId);
+    } catch (SQLException | ClassNotFoundException e) {
+        throw new RuntimeException(e);
+    }
+
+    int itemsInCart = 0;
+    try {
+        itemsInCart = userDAO.getItemsInCart(user.getId());
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    int ordersPlaced = 0;
+    try {
+        ordersPlaced = userDAO.getOrdersPlaced(user.getId());
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    List<Order> recentOrders = null;
+    try {
+        recentOrders = userDAO.getRecentOrders(user.getId());
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
 %>
 <html>
 <head>
@@ -71,8 +106,7 @@
         <div class="col-lg-9 my-lg-0 my-1">
             <div id="main-content" class="bg-white border">
                 <div class="d-flex flex-column">
-                    <div class="h5">Hello <c:out value="${user.firstName}"/>,</div>
-                    <div>Logged in as: <c:out value="${user.email}"/></div>
+                    <div class="h5">Benvenuto <c:out value="${user.firstName}"/>,</div>
                 </div>
                 <div class="d-flex my-4 flex-wrap">
                     <div class="box me-4 my-1 bg-light">
@@ -80,7 +114,7 @@
                              alt="">
                         <div class="d-flex align-items-center mt-2">
                             <div class="tag">Orders placed</div>
-                            <div class="ms-auto number">10</div>
+                            <div class="ms-auto number"><%= ordersPlaced %></div>
                         </div>
                     </div>
                     <div class="box me-4 my-1 bg-light">
@@ -88,117 +122,62 @@
                              alt="">
                         <div class="d-flex align-items-center mt-2">
                             <div class="tag">Items in Cart</div>
-                            <div class="ms-auto number">10</div>
-                        </div>
-                    </div>
-                    <div class="box me-4 my-1 bg-light">
-                        <img src="https://www.freepnglogos.com/uploads/love-png/love-png-heart-symbol-wikipedia-11.png"
-                             alt="">
-                        <div class="d-flex align-items-center mt-2">
-                            <div class="tag">Wishlist</div>
-                            <div class="ms-auto number">10</div>
+                            <div class="ms-auto number"><%= itemsInCart %></div>
                         </div>
                     </div>
                 </div>
                 <div class="text-uppercase">My recent orders</div>
-                <div class="order my-3 bg-light">
-                    <div class="row">
-                        <div class="col-lg-4">
-                            <div class="d-flex flex-column justify-content-between order-summary">
-                                <div class="d-flex align-items-center">
-                                    <div class="text-uppercase">Order #fur10001</div>
-                                    <div class="blue-label ms-auto text-uppercase">paid</div>
-                                </div>
-                                <div class="fs-8">Products #03</div>
-                                <div class="fs-8">22 August, 2020 | 12:05 PM</div>
-                                <div class="rating d-flex align-items-center pt-1">
-                                    <img src="https://www.freepnglogos.com/uploads/like-png/like-png-hand-thumb-sign-vector-graphic-pixabay-39.png"
-                                         alt=""><span class="px-2">Rating:</span>
-                                    <span class="fas fa-star"></span>
-                                    <span class="fas fa-star"></span>
-                                    <span class="fas fa-star"></span>
-                                    <span class="fas fa-star"></span>
-                                    <span class="far fa-star"></span>
+                <c:forEach var="order" items="${recentOrders}">
+                    <div class="order my-3 bg-light">
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="d-flex flex-column justify-content-between order-summary">
+                                    <div class="d-flex align-items-center">
+                                        <div class="text-uppercase">Order #<c:out value="${order.id}"/></div>
+                                        <div class="blue-label ms-auto text-uppercase"><c:out value="${order.status}"/></div>
+                                    </div>
+                                    <div class="fs-8">Products #<c:out value="${order.products.size()}"/></div>
+                                    <div class="fs-8"><c:out value="${order.orderDate}"/></div>
+                                    <div class="rating d-flex align-items-center pt-1">
+                                        <img src="https://www.freepnglogos.com/uploads/like-png/like-png-hand-thumb-sign-vector-graphic-pixabay-39.png"
+                                             alt=""><span class="px-2">Rating:</span>
+                                        <span class="fas fa-star"></span>
+                                        <span class="fas fa-star"></span>
+                                        <span class="fas fa-star"></span>
+                                        <span class="fas fa-star"></span>
+                                        <span class="far fa-star"></span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-lg-8">
-                            <div class="d-sm-flex align-items-sm-start justify-content-sm-between">
-                                <div class="status">Status : Delivered</div>
-                                <div class="btn btn-primary text-uppercase">order info</div>
-                            </div>
-                            <div class="progressbar-track">
-                                <ul class="progressbar">
-                                    <li id="step-1-1" class="text-muted green">
-                                        <span class="fas fa-gift"></span>
-                                    </li>
-                                    <li id="step-2-1" class="text-muted green">
-                                        <span class="fas fa-check"></span>
-                                    </li>
-                                    <li id="step-3-1" class="text-muted green">
-                                        <span class="fas fa-box"></span>
-                                    </li>
-                                    <li id="step-4-1" class="text-muted green">
-                                        <span class="fas fa-truck"></span>
-                                    </li>
-                                    <li id="step-5-1" class="text-muted green">
-                                        <span class="fas fa-box-open"></span>
-                                    </li>
-                                </ul>
-                                <div id="tracker-1"></div>
+                            <div class="col-lg-8">
+                                <div class="d-sm-flex align-items-sm-start justify-content-sm-between">
+                                    <div class="status">Status : <c:out value="${order.status}"/></div>
+                                    <div class="btn btn-primary text-uppercase">order info</div>
+                                </div>
+                                <div class="progressbar-track">
+                                    <ul class="progressbar">
+                                        <li id="step-1-<c:out value="${order.id}"/>" class="text-muted green">
+                                            <span class="fas fa-gift"></span>
+                                        </li>
+                                        <li id="step-2-<c:out value="${order.id}"/>" class="text-muted green">
+                                            <span class="fas fa-check"></span>
+                                        </li>
+                                        <li id="step-3-<c:out value="${order.id}"/>" class="text-muted green">
+                                            <span class="fas fa-box"></span>
+                                        </li>
+                                        <li id="step-4-<c:out value="${order.id}"/>" class="text-muted green">
+                                            <span class="fas fa-truck"></span>
+                                        </li>
+                                        <li id="step-5-<c:out value="${order.id}"/>" class="text-muted green">
+                                            <span class="fas fa-box-open"></span>
+                                        </li>
+                                    </ul>
+                                    <div id="tracker-<c:out value="${order.id}"/>"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="order my-3 bg-light">
-                    <div class="row">
-                        <div class="col-lg-4">
-                            <div class="d-flex flex-column justify-content-between order-summary">
-                                <div class="d-flex align-items-center">
-                                    <div class="text-uppercase">Order #fur10001</div>
-                                    <div class="green-label ms-auto text-uppercase">cod</div>
-                                </div>
-                                <div class="fs-8">Products #03</div>
-                                <div class="fs-8">22 August, 2020 | 12:05 PM</div>
-                                <div class="rating d-flex align-items-center pt-1">
-                                    <img src="https://www.freepnglogos.com/uploads/like-png/like-png-hand-thumb-sign-vector-graphic-pixabay-39.png"
-                                         alt=""><span class="px-2">Rating:</span>
-                                    <span class="fas fa-star"></span>
-                                    <span class="fas fa-star"></span>
-                                    <span class="fas fa-star"></span>
-                                    <span class="fas fa-star"></span>
-                                    <span class="far fa-star"></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-8">
-                            <div class="d-sm-flex align-items-sm-start justify-content-sm-between">
-                                <div class="status">Status : Delivered</div>
-                                <div class="btn btn-primary text-uppercase">order info</div>
-                            </div>
-                            <div class="progressbar-track">
-                                <ul class="progressbar">
-                                    <li id="step-1-2" class="text-muted green">
-                                        <span class="fas fa-gift"></span>
-                                    </li>
-                                    <li id="step-2-2" class="text-muted">
-                                        <span class="fas fa-check"></span>
-                                    </li>
-                                    <li id="step-3-2" class="text-muted">
-                                        <span class="fas fa-box"></span>
-                                    </li>
-                                    <li id="step-4-2" class="text-muted">
-                                        <span class="fas fa-truck"></span>
-                                    </li>
-                                    <li id="step-5-2" class="text-muted">
-                                        <span class="fas fa-box-open"></span>
-                                    </li>
-                                </ul>
-                                <div id="tracker-2"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                </c:forEach>
             </div>
         </div>
     </div>

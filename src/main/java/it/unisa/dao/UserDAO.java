@@ -1,17 +1,80 @@
+// UserDAO.java
 package it.unisa.dao;
 
-import java.sql.*;
+import it.unisa.model.*;
+import it.unisa.util.PasswordUtil;
 
-import it.unisa.connection.DatabaseConnection;
-import it.unisa.model.User;
-import it.unisa.model.Address;
-import it.unisa.model.Review;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserDAO {
     private Connection conn;
 
     public UserDAO(Connection conn) {
         this.conn = conn;
+    }
+
+    public int getItemsInCart(int userId) throws Exception {
+        String query = "SELECT COUNT(*) FROM cart WHERE userId = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, userId);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        }
+        return 0;
+    }
+
+    public int getOrdersPlaced(int userId) throws Exception {
+        String query = "SELECT COUNT(*) FROM orders WHERE userId = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, userId);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        }
+        return 0;
+    }
+
+    public List<Order> getRecentOrders(int userId) throws Exception {
+        List<Order> orders = new ArrayList<>();
+        String query = "SELECT * FROM orders WHERE userId = ? ORDER BY orderDate DESC LIMIT 5";
+        try (PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, userId);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Order order = new Order();
+                order.setId(rs.getInt("id"));
+                order.setOrderDate(rs.getDate("orderDate"));
+                order.setStatus(rs.getString("status"));
+                order.setProducts(getProductsByOrderId(order.getId()));
+                orders.add(order);
+            }
+        }
+        return orders;
+    }
+
+    private List<Product> getProductsByOrderId(int orderId) throws Exception {
+        List<Product> products = new ArrayList<>();
+        String query = "SELECT p.* FROM products p JOIN orderitems oi ON p.id = oi.productId WHERE oi.orderId = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, orderId);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Product product = new Product();
+                product.setId(rs.getInt("id"));
+                product.setName(rs.getString("name"));
+                product.setPrice(rs.getDouble("price"));
+                products.add(product);
+            }
+        }
+        return products;
     }
 
     public User getUser(int id) throws SQLException {
@@ -66,6 +129,7 @@ public class UserDAO {
         stmt.setInt(1, id);
         stmt.executeUpdate();
     }
+
     public int authenticate(String email, String password) throws SQLException {
         String sql = "SELECT id FROM Users WHERE email = ? AND password = ?";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -93,7 +157,6 @@ public class UserDAO {
         return false;
     }
 
-
     public void createAddress(Address address) throws SQLException {
         String sql = "INSERT INTO Addresses (userId, addressLine1, addressLine2, city, state, postalCode, country) VALUES (?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement stmt = conn.prepareStatement(sql);
@@ -116,25 +179,6 @@ public class UserDAO {
         stmt.setString(4, review.getComment());
         stmt.setTimestamp(5, review.getReviewDate());
         stmt.executeUpdate();
-    }
-    public void saveUser(User user) throws SQLException {
-        String sql = "INSERT INTO users (firstName, lastName, username, email, password) VALUES (?, ?, ?, ?, ?)";
-
-        try (Connection connection = DatabaseConnection.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
-
-            statement.setString(1, user.getFirstName());
-            statement.setString(2, user.getLastName());
-            statement.setString(3, user.getUsername());
-            statement.setString(4, user.getEmail());
-            statement.setString(5, user.getPassword());
-
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            throw new SQLException("Error saving user", e);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     public boolean emailExists(String email) throws SQLException {
@@ -161,5 +205,37 @@ public class UserDAO {
             }
         }
         return false;
+    }
+    public User getUserByEmailAndPassword(String email, String password) throws SQLException {
+        String query = "SELECT * FROM Users WHERE email = ? AND password = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, email);
+            stmt.setString(2, PasswordUtil.hashPassword(password)); // Hash the password
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return new User(
+                        rs.getInt("id"),
+                        rs.getString("username"),
+                        rs.getString("password"),
+                        rs.getString("email"),
+                        rs.getString("firstName"),
+                        rs.getString("lastName"),
+                        rs.getBoolean("isAdmin")
+                );
+            }
+        }
+        return null;
+    }
+
+    public void saveUser(User user) throws SQLException {
+        String sql = "INSERT INTO Users (firstName, lastName, username, email, password) VALUES (?, ?, ?, ?, ?)";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, user.getFirstName());
+            stmt.setString(2, user.getLastName());
+            stmt.setString(3, user.getUsername());
+            stmt.setString(4, user.getEmail());
+            stmt.setString(5, PasswordUtil.hashPassword(user.getPassword()));
+            stmt.executeUpdate();
+        }
     }
 }

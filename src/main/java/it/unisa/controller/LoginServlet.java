@@ -2,6 +2,7 @@ package it.unisa.controller;
 
 import it.unisa.connection.DatabaseConnection;
 import it.unisa.dao.UserDAO;
+import it.unisa.model.User;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -28,45 +29,26 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-
         String email = request.getParameter("email");
         String password = request.getParameter("password");
 
-        if (email == null || password == null || email.isEmpty() || password.isEmpty()) {
-            response.sendRedirect("login.jsp?error=Invalid input");
-            return;
-        }
-        UserDAO userDAO;
+        UserDAO userDAO = null;
+        User user = null;
         try {
             userDAO = new UserDAO(DatabaseConnection.getConnection());
+            user = userDAO.getUserByEmailAndPassword(email, password);
         } catch (ClassNotFoundException | SQLException e) {
             LOGGER.log(Level.SEVERE, "Database connection error", e);
-            response.sendRedirect("login.jsp?error=Database connection error");
+            response.sendRedirect("500.jsp");
             return;
         }
 
-        int userId;
-        boolean isAdmin;
-        try {
-            userId = userDAO.authenticate(email, password);
-            isAdmin = userDAO.isAdmin(userId);
-        } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "Authentication error", e);
-            response.sendRedirect("login.jsp?error=Authentication error");
-            return;
-        }
-
-        if (userId != -1) {
-            HttpSession session = request.getSession(true); // Create new session
-            session.setMaxInactiveInterval(30 * 60); // 30 minutes
-            session.setAttribute("userId", userId);
-            session.setAttribute("isAdmin", isAdmin);
-            response.sendRedirect("index");
-            LOGGER.info("Login successful for user ID: " + userId);
+        if (user != null) {
+            HttpSession session = request.getSession();
+            session.setAttribute("userId", user.getId());
+            response.sendRedirect("profile.jsp");
         } else {
-            response.sendRedirect("login.jsp?error=Invalid email or password");
-            LOGGER.warning("Login failed for email: " + email);
+            response.sendRedirect("login?error=Invalid email or password");
         }
     }
 }

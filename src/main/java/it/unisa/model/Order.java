@@ -1,14 +1,16 @@
 // Order.java
 package it.unisa.model;
 
-import java.sql.Timestamp;
+import java.util.Date;
+import java.util.List;
 
 public class Order {
 	private int id;
 	private int userId;
-	private Timestamp orderDate;
+	private Date orderDate;
 	private String status;
 	private double totalAmount;
+	private List<Product> products;
 
 	// Getters and setters
 	public int getId() {
@@ -27,11 +29,11 @@ public class Order {
 		this.userId = userId;
 	}
 
-	public Timestamp getOrderDate() {
+	public Date getOrderDate() {
 		return orderDate;
 	}
 
-	public void setOrderDate(Timestamp orderDate) {
+	public void setOrderDate(Date orderDate) {
 		this.orderDate = orderDate;
 	}
 
@@ -49,5 +51,13 @@ public class Order {
 
 	public void setTotalAmount(double totalAmount) {
 		this.totalAmount = totalAmount;
+	}
+
+	public List<Product> getProducts() {
+		return products;
+	}
+
+	public void setProducts(List<Product> products) {
+		this.products = products;
 	}
 }

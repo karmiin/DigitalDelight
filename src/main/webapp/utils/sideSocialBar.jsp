@@ -13,3 +13,4 @@
         <i class="fa fa-instagram" aria-hidden="true"></i>
       </a>
     </div>
+  </div>
