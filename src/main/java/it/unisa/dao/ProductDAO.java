@@ -83,6 +83,18 @@ public class ProductDAO {
         return product;
     }
 
+    public int getAvailableQuantity(int productId) throws SQLException {
+        String query = "SELECT stock FROM Products WHERE id = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, productId);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("stock");
+            }
+        }
+        return 0;
+    }
+
     public List<Product> getProducts(OptionalInt nProducts) throws SQLException {
         List<Product> products = new ArrayList<>();
         String sql = "SELECT * FROM products";

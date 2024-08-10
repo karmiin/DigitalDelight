@@ -1,6 +1,8 @@
 // Product.java
 package it.unisa.model;
 
+import java.util.Objects;
+
 public class Product {
 	private int id;
 	private String name;
@@ -11,6 +13,19 @@ public class Product {
 	private String model;
 	private byte[] image; // Add image field
 
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Product product = (Product) o;
+		return id == product.id;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
 	// Getters and setters
 	public int getId() {
 		return id;
@@ -76,3 +91,4 @@ public class Product {
 		this.image = image;
 	}
 }
+

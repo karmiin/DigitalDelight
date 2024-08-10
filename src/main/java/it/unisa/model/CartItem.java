@@ -1,45 +1,21 @@
+// CartItem.java
 package it.unisa.model;
 
 public class CartItem {
-	private int id;
-	private int userId;
-	private int productId;
+	private Product product;
 	private int quantity;
 
-	public CartItem() {
-		super();
-	}
-
-	public CartItem(int id, int userId, int productId, int quantity) {
-		super();
-		this.id = id;
-		this.userId = userId;
-		this.productId = productId;
+	public CartItem(Product product, int quantity) {
+		this.product = product;
 		this.quantity = quantity;
 	}
 
-	public int getId() {
-		return id;
+	public Product getProduct() {
+		return product;
 	}
 
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public int getUserId() {
-		return userId;
-	}
-
-	public void setUserId(int userId) {
-		this.userId = userId;
-	}
-
-	public int getProductId() {
-		return productId;
-	}
-
-	public void setProductId(int productId) {
-		this.productId = productId;
+	public void setProduct(Product product) {
+		this.product = product;
 	}
 
 	public int getQuantity() {
