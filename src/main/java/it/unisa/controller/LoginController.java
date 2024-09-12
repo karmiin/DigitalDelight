@@ -17,10 +17,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @WebServlet("/login")
-public class LoginServlet extends HttpServlet {
+public class LoginController extends HttpServlet {
     @Serial
     private static final long serialVersionUID = 3527207757698776852L;
-    private static final Logger LOGGER = Logger.getLogger(LoginServlet.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(LoginController.class.getName());
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -46,6 +46,7 @@ public class LoginServlet extends HttpServlet {
         if (user != null) {
             HttpSession session = request.getSession();
             session.setAttribute("userId", user.getId());
+            session.setAttribute("isAdmin", user.getIsAdmin());
             response.sendRedirect("profile.jsp");
         } else {
             response.sendRedirect("login?error=Invalid email or password");

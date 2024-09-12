@@ -10,7 +10,6 @@ $textCol: #1f1f1f;
 @mixin main-font {
   font-family: "Poppins", sans-serif;
 }
-
 @mixin hero_btn($col1, $col2, $pad1, $pad2, $bRadius) {
   display: inline-block;
   padding: $pad1 $pad2;
@@ -105,6 +104,7 @@ a:focus {
 
 /*header section*/
 .hero_area {
+  background-color: $primary2;
   position: relative;
   min-height: 100vh;
   display: flex;
@@ -342,13 +342,6 @@ a:focus {
     }
   }
 
-  .carousel-indicators {
-    position: unset;
-    margin: 0;
-    justify-content: center;
-    align-items: center;
-    margin-top: 45px;
-
     li {
       background-color: $white;
       width: 15px;
@@ -363,7 +356,7 @@ a:focus {
       }
     }
   }
-}
+
 
 // end slider section
 

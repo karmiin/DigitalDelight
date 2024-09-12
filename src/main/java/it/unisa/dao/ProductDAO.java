@@ -82,6 +82,14 @@ public class ProductDAO {
         }
         return product;
     }
+    public void updateAvailableQuantity(int productId, int quantity) throws SQLException {
+        String query = "UPDATE products SET stock = stock - ? WHERE id = ?";
+        try (PreparedStatement preparedStatement = conn.prepareStatement(query)) {
+            preparedStatement.setInt(1, quantity);
+            preparedStatement.setInt(2, productId);
+            preparedStatement.executeUpdate();
+        }
+    }
 
     public int getAvailableQuantity(int productId) throws SQLException {
         String query = "SELECT stock FROM Products WHERE id = ?";

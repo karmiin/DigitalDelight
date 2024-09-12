@@ -70,6 +70,7 @@ a:focus {
 
 /*header section*/
 .hero_area {
+  background-color: #3b4a6b;
   position: relative;
   min-height: 100vh;
   display: flex;
@@ -265,21 +266,14 @@ a:focus {
 .slider_section .img-box img {
   width: 100%;
 }
-.slider_section .carousel-indicators {
-  position: unset;
-  margin: 0;
-  justify-content: center;
-  align-items: center;
-  margin-top: 45px;
-}
-.slider_section .carousel-indicators li {
+.slider_section li {
   background-color: #ffffff;
   width: 15px;
   height: 15px;
   border-radius: 100%;
   opacity: 1;
 }
-.slider_section .carousel-indicators li.active {
+.slider_section li.active {
   width: 23px;
   height: 23px;
   background-color: #f0d43a;

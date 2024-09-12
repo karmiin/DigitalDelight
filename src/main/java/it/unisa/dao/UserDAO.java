@@ -1,7 +1,8 @@
 // UserDAO.java
 package it.unisa.dao;
 
-import it.unisa.model.*;
+import it.unisa.model.Order;
+import it.unisa.model.User;
 import it.unisa.util.PasswordUtil;
 
 import java.sql.Connection;
@@ -53,28 +54,10 @@ public class UserDAO {
                 order.setId(rs.getInt("id"));
                 order.setOrderDate(rs.getDate("orderDate"));
                 order.setStatus(rs.getString("status"));
-                order.setProducts(getProductsByOrderId(order.getId()));
                 orders.add(order);
             }
         }
         return orders;
-    }
-
-    private List<Product> getProductsByOrderId(int orderId) throws Exception {
-        List<Product> products = new ArrayList<>();
-        String query = "SELECT p.* FROM products p JOIN orderitems oi ON p.id = oi.productId WHERE oi.orderId = ?";
-        try (PreparedStatement stmt = conn.prepareStatement(query)) {
-            stmt.setInt(1, orderId);
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                Product product = new Product();
-                product.setId(rs.getInt("id"));
-                product.setName(rs.getString("name"));
-                product.setPrice(rs.getDouble("price"));
-                products.add(product);
-            }
-        }
-        return products;
     }
 
     public User getUser(int id) throws SQLException {
@@ -155,30 +138,6 @@ public class UserDAO {
             }
         }
         return false;
-    }
-
-    public void createAddress(Address address) throws SQLException {
-        String sql = "INSERT INTO Addresses (userId, addressLine1, addressLine2, city, state, postalCode, country) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        PreparedStatement stmt = conn.prepareStatement(sql);
-        stmt.setInt(1, address.getUserId());
-        stmt.setString(2, address.getAddressLine1());
-        stmt.setString(3, address.getAddressLine2());
-        stmt.setString(4, address.getCity());
-        stmt.setString(5, address.getState());
-        stmt.setString(6, address.getPostalCode());
-        stmt.setString(7, address.getCountry());
-        stmt.executeUpdate();
-    }
-
-    public void createReview(Review review) throws SQLException {
-        String sql = "INSERT INTO Reviews (productId, userId, rating, comment, reviewDate) VALUES (?, ?, ?, ?, ?)";
-        PreparedStatement stmt = conn.prepareStatement(sql);
-        stmt.setInt(1, review.getProductId());
-        stmt.setInt(2, review.getUserId());
-        stmt.setInt(3, review.getRating());
-        stmt.setString(4, review.getComment());
-        stmt.setTimestamp(5, review.getReviewDate());
-        stmt.executeUpdate();
     }
 
     public boolean emailExists(String email) throws SQLException {

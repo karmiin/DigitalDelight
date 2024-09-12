@@ -1,8 +1,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page import="jakarta.servlet.http.HttpSession" %>
+<%@ page import="it.unisa.model.User" %>
 <%
-  HttpSession sessionForLogout = request.getSession(false);
-  boolean loggedIn = (sessionForLogout!= null && sessionForLogout.getAttribute("userId") != null);
+  HttpSession sessionCheck = request.getSession(false);
+  boolean loggedIn = (sessionCheck!= null && sessionCheck.getAttribute("userId") != null);
+  boolean isAdmin =  (boolean)(sessionCheck.getAttribute("isAdmin") != null && (boolean) sessionCheck.getAttribute("isAdmin"));
 %>
 
 <header class="header_section">
@@ -22,12 +24,6 @@
           <li class="nav-item">
             <a class="nav-link" href="phones">Phones</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="about">About</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="contact">Contact Us</a>
-          </li>
         </ul>
         <div class="user_option-box">
           <a href="profile">
@@ -42,6 +38,11 @@
           <% if (loggedIn) { %>
           <a href="logout">
             <i class="fa fa-sign-out" aria-hidden="true"></i>
+          </a>
+          <% } %>
+          <% if (isAdmin) { %>
+          <a href="adminPanel">
+            <i class="fa fa-lock" aria-hidden="true"></i>
           </a>
           <% } %>
         </div>

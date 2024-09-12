@@ -1,9 +1,9 @@
 $(document).ready(function() {
     $('#registerForm').on('submit', function(event) {
-        event.preventDefault(); // Prevent the default form submission
+        event.preventDefault();
 
-        var email = $('#email').val(); // Get the email value
-        var username = $('#username').val(); // Get the username value
+        var email = $('#email').val();
+        var username = $('#username').val();
 
         $.ajax({
             type: 'POST', // Ensure it is POST
@@ -17,7 +17,7 @@ $(document).ready(function() {
                     $('#messageError').text('Username already exists').show();
                 } else {
                     $('#messageError').hide();
-                    $('#registerForm').off('submit').submit(); // Allow form submission
+                    $('#registerForm').off('submit').submit();
                 }
             },
             error: function() {

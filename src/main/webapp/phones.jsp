@@ -16,7 +16,7 @@
   <meta name="author" content="" />
   <link rel="shortcut icon" href="images/favicon.png" type="image/x-icon">
 
-  <title>Timups</title>
+  <title>Digital Delight</title>
 
   <!-- bootstrap core css -->
   <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
@@ -40,6 +40,11 @@
     <c:if test="${not empty param.error}">
       <div class="alert alert-danger">
         <c:out value="${param.error}"/>
+      </div>
+    </c:if>
+    <c:if test="${not empty param.success}">
+      <div class="alert alert-success">
+        <c:out value="${param.success}"/>
       </div>
     </c:if>
     <div class="row">
