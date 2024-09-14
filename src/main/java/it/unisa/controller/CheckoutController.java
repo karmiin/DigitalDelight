@@ -1,4 +1,3 @@
-// CheckoutController.java
 package it.unisa.controller;
 
 import it.unisa.connection.DatabaseConnection;
