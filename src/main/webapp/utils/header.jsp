@@ -32,9 +32,6 @@
           <a href="cart">
             <i class="fa fa-cart-plus" aria-hidden="true"></i>
           </a>
-          <a href="">
-            <i class="fa fa-search" aria-hidden="true"></i>
-          </a>
           <% if (loggedIn) { %>
           <a href="logout">
             <i class="fa fa-sign-out" aria-hidden="true"></i>

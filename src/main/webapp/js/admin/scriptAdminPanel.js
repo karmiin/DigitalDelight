@@ -19,3 +19,17 @@ $(document).ready(function() {
         $('#editProductModal').modal('show');
     });
 });
+function searchProducts() {
+    let searchQuery = document.getElementById('search').value;
+    $.ajax({
+        url: '${pageContext.request.contextPath}/adminPanel',
+        type: 'GET',
+        data: { search: searchQuery },
+        success: function(response) {
+            $('#productTableBody').html($(response).find('#productTableBody').html());
+        },
+        error: function(xhr, status, error) {
+            console.error('Error fetching products:', error);
+        }
+    });
+}

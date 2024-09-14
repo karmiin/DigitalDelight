@@ -9,12 +9,21 @@ public class Order {
 	private int userId;
 	private Date orderDate;
 	private String status;
+	private String username;
 	private double totalAmount;
-	private List<OrderItem> items; // Aggiungi questa linea
+	private List<OrderItem> items;
 
 	// Getter e setter per items
 	public List<OrderItem> getItems() {
 		return items;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public void setItems(List<OrderItem> items) {

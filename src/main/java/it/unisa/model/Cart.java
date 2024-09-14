@@ -20,6 +20,7 @@ public class Cart {
             items.put(product, quantity);
         }
     }
+
     public void updateItem(Product product, int quantity) {
         items.put(product, quantity);
     }

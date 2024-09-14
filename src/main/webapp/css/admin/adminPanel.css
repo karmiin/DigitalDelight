@@ -75,10 +75,6 @@ input[type="file"]::file-selector-button:active {
   background-color: #e5e7eb;
 }
 
-/* ------------------------ */
-
-/* default boilerplate to center input */
-
 #showimg{
 	max-width: 100px;
 	max-height: 100px;

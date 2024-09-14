@@ -10,8 +10,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <link rel="shortcut icon" href="../images/contact.webp" type="image/x-icon">
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
 
     <title>Digital Delight</title>
 </head>
@@ -51,9 +49,10 @@
                                     </div>
                                     <div class="col-lg-5 col-md-6 mb-4 mb-lg-0">
                                         <p><strong><c:out value="${entry.key.name}"/></strong></p>
-                                        <form action="removeFromCart" method="post" class="d-inline">
+                                        <form action="cart" method="post" class="d-inline">
+                                            <input type="hidden" name="action" value="remove" />
                                             <input type="hidden" name="productId" value="${entry.key.id}" />
-                                            <button type="submit" class="btn btn-primary btn-sm me-1 mb-2" title="Remove item">
+                                            <button type="submit" class="btn btn-light btn-sm me-1 mb-2" title="Remove item">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </form>
@@ -66,6 +65,14 @@
                                 </div>
                                 <hr class="my-4" />
                             </c:forEach>
+                            <div class="d-flex justify-content-end">
+                            <form action="cart" method="post">
+                                <input type="hidden" name="action" value="clear" />
+                                <button type="submit" class="btn btn-danger me-1 mb-2" title="Clear cart">
+                                <i class="fas fa-trash"></i>
+                                </button>
+                            </form>
+                            </div>
                         </c:if>
                     </div>
                 </div>

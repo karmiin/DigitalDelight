@@ -59,7 +59,19 @@ public class UserDAO {
         }
         return orders;
     }
-
+    public String getUsernameByUserId(int userId) throws Exception {
+        String query = "SELECT username FROM users WHERE id = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, userId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getString("username");
+                } else {
+                    throw new Exception("User not found");
+                }
+            }
+        }
+    }
     public User getUser(int id) throws SQLException {
         String sql = "SELECT * FROM Users WHERE id = ?";
         PreparedStatement stmt = conn.prepareStatement(sql);

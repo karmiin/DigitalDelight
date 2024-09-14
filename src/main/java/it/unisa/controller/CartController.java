@@ -59,23 +59,42 @@ public class CartController extends HttpServlet {
             session.setAttribute("cart", cart);
         }
 
-        int productId = Integer.parseInt(request.getParameter("productId"));
-        int quantity = Integer.parseInt(request.getParameter("quantity"));
-
-        try {
-            ProductDAO productDAO = new ProductDAO(DatabaseConnection.getConnection());
-            Product product = productDAO.getProductById(productId);
-            int availableQuantity = productDAO.getAvailableQuantity(productId);
-            int totalQuantityInCart = cart.getTotalQuantity(product);
-            if (totalQuantityInCart + quantity <= availableQuantity) {
-                cart.addItem(product, quantity);
-                response.sendRedirect("phones?success=" + product.getName() + " aggiunto al carrello");
-            } else {
-                response.sendRedirect("phones?error=" + product.getName() + " non disponibile");
+        String action = request.getParameter("action");
+        if ("remove".equals(action)) {
+            int productId = Integer.parseInt(request.getParameter("productId"));
+            try {
+                ProductDAO productDAO = new ProductDAO(DatabaseConnection.getConnection());
+                Product product = productDAO.getProductById(productId);
+                cart.removeItem(product);
+                response.sendRedirect("cart");
+            } catch (ClassNotFoundException | SQLException e) {
+                LOGGER.log(Level.SEVERE, "Database connection error", e);
+                response.sendRedirect("500.jsp");
             }
-        } catch (ClassNotFoundException | SQLException e) {
-            LOGGER.log(Level.SEVERE, "Database connection error", e);
-            response.sendRedirect("500.jsp");
+            return;
+        } else if ("clear".equals(action)) {
+            cart.clear();
+            response.sendRedirect("cart");
+            return;
+        } else {
+            int productId = Integer.parseInt(request.getParameter("productId"));
+            int quantity = Integer.parseInt(request.getParameter("quantity"));
+
+            try {
+                ProductDAO productDAO = new ProductDAO(DatabaseConnection.getConnection());
+                Product product = productDAO.getProductById(productId);
+                int availableQuantity = productDAO.getAvailableQuantity(productId);
+                int totalQuantityInCart = cart.getTotalQuantity(product);
+                if (totalQuantityInCart + quantity <= availableQuantity) {
+                    cart.addItem(product, quantity);
+                    response.sendRedirect("phones?success=" + product.getName() + " aggiunto al carrello");
+                } else {
+                    response.sendRedirect("phones?error=" + product.getName() + " non disponibile");
+                }
+            } catch (ClassNotFoundException | SQLException e) {
+                LOGGER.log(Level.SEVERE, "Database connection error", e);
+                response.sendRedirect("500.jsp");
+            }
         }
     }
 }
