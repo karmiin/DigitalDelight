@@ -2,21 +2,17 @@
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <head>
-  <!-- Basic -->
+
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <!-- Mobile Metas -->
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-  <!-- Site Metas -->
-  <meta name="keywords" content="" />
-  <meta name="description" content="" />
-  <meta name="author" content="" />
-  <link rel="shortcut icon" href="images/favicon.png" type="image/x-icon">
+    <link rel="icon" href="images/logo.png" type="image/x-icon" />
 
-  <title>Timups</title>
+  <title>Digital Delight</title>
 
 <%@include file="utils/imports.jsp" %>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/auth.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/fixAuth.css">
 </head>
 
 <body>
@@ -35,7 +31,7 @@
 
    <form action="${pageContext.request.contextPath}/login" method="POST">
       <input type="text" id="email" class="fadeIn second" name="email" placeholder="email">
-      <input type="text" id="password" class="fadeIn third" name="password" placeholder="password">
+      <input type="password" id="password" class="fadeIn third" name="password" placeholder="password">
       <input type="submit" class="fadeIn fourth" value="Log In">
     </form>
 

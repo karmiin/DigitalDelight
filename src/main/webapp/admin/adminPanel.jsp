@@ -6,6 +6,7 @@
     <title>Digital Delight ADMIN</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="icon" href="images/logo.png" type="image/x-icon" />
     <%@include file="../utils/imports.jsp"%>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/admin/adminPanel.css">
 </head>

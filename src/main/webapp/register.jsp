@@ -8,11 +8,12 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-
+    <link rel="icon" href="images/logo.png" type="image/x-icon" />
     <title>Digital Delight</title>
 
     <%@include file="utils/imports.jsp" %>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/auth.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/fixAuth.css">
 </head>
 
 <body>
@@ -25,13 +26,13 @@
         </div>
 
 
-        <form id="registerForm" action="${pageContext.request.contextPath}/register" method="POST">
+        <form id="registerForm" class="form-group" action="${pageContext.request.contextPath}/register" method="POST">
             <span id="messageError" style="color: #ff0000; display: none;"></span>
             <input type="text" id="firstname" class="fadeIn second" name="firstname" placeholder="first name" required>
             <input type="text" id="lastname" class="fadeIn second" name="lastname" placeholder="last name" required>
             <input type="text" id="username" class="fadeIn third" name="username" placeholder="username" required>
             <input type="text" id="email" class="fadeIn fourth" name="email" placeholder="email" required>
-            <input type="text" id="password" class="fadeIn fourth" name="password" placeholder="password" required>
+            <input type="password" id="password" class="fadeIn fourth" name="password" placeholder="password" required>
             <input type="submit" class="fadeIn fourth" value="Register">
         </form>
 

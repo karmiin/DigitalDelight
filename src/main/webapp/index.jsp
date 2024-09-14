@@ -7,17 +7,11 @@
   <%@include file="utils/imports.jsp"%>
   <link rel="stylesheet" href="css/index.css" />
   <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <!-- Mobile Metas -->
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-  <!-- Site Metas -->
-  <meta name="keywords" content="" />
-  <meta name="description" content="" />
-  <meta name="author" content="" />
+    <link rel="icon" href="images/logo.png" type="image/x-icon" />
   <title>Digital Delight</title>
 
 </head>
-
 <body>
 <%@include file="utils/header.jsp"%>
 <div class="hero_area d-flex justify-content-center align-content-between">
@@ -32,25 +26,11 @@
       <img src="images/iphone14.png" class="w-75" alt="">
     </div>
   </div>
-  <div class="hero_social">
-    <a href="">
-      <i class="fa fa-facebook" aria-hidden="true"></i>
-    </a>
-    <a href="">
-      <i class="fa fa-twitter" aria-hidden="true"></i>
-    </a>
-    <a href="">
-      <i class="fa fa-linkedin" aria-hidden="true"></i>
-    </a>
-    <a href="">
-      <i class="fa fa-instagram" aria-hidden="true"></i>
-    </a>
-  </div>
 </div>
 
 
 <section class="shop_section layout_padding">
-  <div class="container">
+  <div class="container" id="novita">
     <div class="heading_container heading_center">
       <h2>
         Novitá
@@ -104,7 +84,7 @@
 </section>
 
 
-<!-- contact section -->
+
 <section class="contact_section section_spacing mb-5">
   <div class="container">
     <div class="row">
@@ -138,32 +118,18 @@
       </div>
       <div class="col-md-6">
         <div class="img-box">
-          <img src="images/contact.webp" alt="">
+          <img src="images/logo.png" alt="">
 
         </div>
       </div>
     </div>
   </div>
 </section>
-<!-- footer section -->
 <%@include file="utils/footer.jsp"%>
-<!-- footer section -->
-
-<!-- jQery -->
 <script src="js/jquery-3.4.1.min.js"></script>
-<!-- popper js -->
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js">
 </script>
-<!-- bootstrap js -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
-<!-- owl slider -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js">
-</script>
-<!-- custom js -->
+<script src="js/bootstrap.js"></script>
 <script src="js/custom.js"></script>
-<!-- Google Map -->
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCh39n5U-4IoWpsVGUHWdqB6puEkhRLdmI&callback=myMap"></script>
-<!-- End Google Map -->
-
 </body>
 </html>

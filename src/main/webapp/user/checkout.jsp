@@ -4,8 +4,9 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <title>Conferma Checkout</title>
+    <title>Digital Delight</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="icon" href="images/logo.png" type="image/x-icon" />
 </head>
 <body>
 <section class="h-100 gradient-custom">
