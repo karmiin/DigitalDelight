@@ -28,41 +28,41 @@ public class RegisterController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-            // Retrieve form parameters
             String firstName = request.getParameter("firstname");
             String lastName = request.getParameter("lastname");
             String username = request.getParameter("username");
             String email = request.getParameter("email");
             String password = request.getParameter("password");
 
-            // Validate input data (basic example)
             if (firstName == null || lastName == null || username == null || email == null || password == null ||
                     firstName.isEmpty() || lastName.isEmpty() || username.isEmpty() || email.isEmpty() || password.isEmpty()) {
-            request.setAttribute("errorMessage", "All fields are required.");
-            request.getRequestDispatcher("/register.jsp").forward(request, response);
-            return;
-        }
+                request.setAttribute("errorMessage", "All fields are required.");
+                request.getRequestDispatcher("/register.jsp").forward(request, response);
+                System.out.println("empty fields");
+                System.out.println(firstName + " " + lastName + " " + username + " " + email + " " + password);
+                return;
+            }
 
-        // Create a new user object
-        User user = new User();
-        user.setFirstName(firstName);
-        user.setLastName(lastName);
-        user.setUsername(username);
-        user.setEmail(email);
-        user.setPassword(password);
+            User user = new User();
+            user.setFirstName(firstName);
+            user.setLastName(lastName);
+            user.setUsername(username);
+            user.setEmail(email);
+            user.setPassword(password);
 
-        // Save the user to the database
 
-        try {
-            UserDAO userDAO = new UserDAO(DatabaseConnection.getConnection());
-            userDAO.saveUser(user);
-            response.sendRedirect("registerSuccess.jsp");
-        } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "Error registering user", e);
-            request.setAttribute("errorMessage", "An error occurred while registering. Please try again.");
-            request.getRequestDispatcher("/register.jsp").forward(request, response);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
+            try {
+                UserDAO userDAO = new UserDAO(DatabaseConnection.getConnection());
+                userDAO.saveUser(user);
+                response.sendRedirect("login");
+            } catch (SQLException e) {
+                LOGGER.log(Level.SEVERE, "Errore durante la registrazione", e);
+                request.setAttribute("errorMessage", "Errore, riprova.");
+                request.getRequestDispatcher("/register.jsp").forward(request, response);
+            } catch (ClassNotFoundException e) {
+                LOGGER.log(Level.SEVERE, "Error registering user", e);
+                request.setAttribute("errorMessage", "Errore, Riprova.");
+                request.getRequestDispatcher("/register.jsp").forward(request, response);
+            }
     }
 }

@@ -3,8 +3,8 @@
 <div class="container mt-5">
     <form id="searchForm" action="${pageContext.request.contextPath}/adminPanel" method="GET" onsubmit="return false;">
         <div class="form-group d-flex">
-            <input type="text" class="form-control" id="search" name="search" placeholder="Enter search">
-            <button type="button" class="btn btn-dark" onclick="searchProducts()">Search</button>
+            <input type="text" class="form-control" id="search" name="search" placeholder="Cerca prodotto">
+            <button type="button" class="btn btn-dark" onclick="searchProducts()"><i class="fa fa-search"></i></button>
         </div>
     </form>
     <table class="table">
@@ -15,7 +15,7 @@
             <th>Prezzo</th>
             <th>Stock</th>
             <th>Brand</th>
-            <th>Model</th>
+            <th>Modello</th>
             <th>Immagine</th>
             <th>Azioni</th>
         </tr>
@@ -71,7 +71,7 @@
                         <input type="text" class="form-control" id="editPrice" name="price" required>
                     </div>
                     <div class="form-group">
-                        <label for="editStock">Quantitá</label>
+                        <label for="editStock">Stock</label>
                         <input type="text" class="form-control" id="editStock" name="stock" required>
                     </div>
                     <div class="form-group">

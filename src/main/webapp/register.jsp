@@ -28,11 +28,11 @@
 
         <form id="registerForm" class="form-group" action="${pageContext.request.contextPath}/register" method="POST">
             <span id="messageError" style="color: #ff0000; display: none;"></span>
-            <input type="text" id="firstname" class="fadeIn second" name="firstname" placeholder="first name" required>
-            <input type="text" id="lastname" class="fadeIn second" name="lastname" placeholder="last name" required>
-            <input type="text" id="username" class="fadeIn third" name="username" placeholder="username" required>
-            <input type="text" id="email" class="fadeIn fourth" name="email" placeholder="email" required>
-            <input type="password" id="password" class="fadeIn fourth" name="password" placeholder="password" required>
+            <input type="text" id="firstname" class="fadeIn second" name="firstname" placeholder="Nome" required>
+            <input type="text" id="lastname" class="fadeIn second" name="lastname" placeholder="Cognome" required>
+            <input type="text" id="username" class="fadeIn third" name="username" placeholder="Username" required>
+            <input type="text" id="email" class="fadeIn fourth" name="email" placeholder="Email" required>
+            <input type="password" id="password" class="fadeIn fourth" name="password" placeholder="Password" required>
             <input type="submit" class="fadeIn fourth" value="Register">
         </form>
 
