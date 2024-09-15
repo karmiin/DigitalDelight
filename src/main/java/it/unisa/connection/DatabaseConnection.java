@@ -8,7 +8,7 @@ public class DatabaseConnection {
 
     public static Connection getConnection() throws SQLException, ClassNotFoundException {
         Class.forName("com.mysql.cj.jdbc.Driver");
-        return DriverManager.getConnection(DATABASE_URL,"root","root1234");
+        return DriverManager.getConnection(DATABASE_URL,"root","");
     }
 
     public static boolean testConnection() {
