@@ -19,19 +19,19 @@
                                 <div class="sidebar-sticky">
                                     <ul class="nav flex-column">
                                         <li class="nav-item">
-                                            <a class="nav-link active text-black" href="#" onclick="showSection('dashboard')">
+                                            <a class="nav-link active text-dark" href="#" onclick="showSection('dashboard')">
                                                 <i class="fa fa-home me-2"></i>
                                                 Dashboard
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                        <a class="nav-link text-black" href="#" onclick="showSection('addProduct')">
+                        <a class="nav-link text-dark" href="#" onclick="showSection('addProduct')">
                             <i class="fa fa-plus me-2"></i>
                             Aggiungi prodotto
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link black text-black" href="#" onclick="showSection('manageProducts')">
+                        <a class="nav-link black text-dark" href="#" onclick="showSection('manageProducts')">
                             <i class="fa fa-cogs me-2"></i>
                             Gestisci prodotti
                         </a>

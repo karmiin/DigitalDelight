@@ -116,7 +116,7 @@
                             </li>
                         </ul>
                         <form action="checkout" method="post">
-                            <button type="submit" class="btn btn-primary btn-lg btn-block">Go to checkout</button>
+                            <button type="submit" class="btn btn-primary btn-lg btn-block">Vai al checkout</button>
                         </form>
                     </div>
                 </div>

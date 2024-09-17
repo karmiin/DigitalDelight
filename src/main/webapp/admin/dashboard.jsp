@@ -23,14 +23,13 @@
 
             <div id="ordersList" class="mt-4">
                 <c:forEach var="order" items="${orders}">
-                    <!-- Card di Material Design per ogni ordine -->
                     <div class="card mb-3 shadow-sm">
                         <div class="card-body">
                             <h5 class="card-title">Ordine ID: ${order.id}</h5>
                             <p class="card-text">Utente ID: ${order.userId}</p>
                             <p class="card-text">Nome Utente: ${order.username}</p>
                             <p class="card-text">Data Ordine: ${order.orderDate}</p>
-                            <p class="card-text">Totale: €${order.totalAmount}</p>
+                            <p class="card-text">Totale: ${order.totalAmount}</p>
                         </div>
                     </div>
                 </c:forEach>
